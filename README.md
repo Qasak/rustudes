@@ -1,5 +1,5 @@
 # rustudes
-[English]() | 中文
+English | [中文](https://github.com/Qasak/rustudes/blob/main/README_CN.md)
 
 
 rust version of [Peter Norvig](https://norvig.com/)'s [pytudes](https://github.com/norvig/pytudes)

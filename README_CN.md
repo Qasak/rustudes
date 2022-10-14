@@ -1,6 +1,6 @@
 # rustudes
 
-[English]() | 中文
+[English](https://github.com/Qasak/rustudes/blob/main/README.md) | 中文
 
 本项目为[Peter Norvig](https://norvig.com/)所写 [pytudes](https://github.com/norvig/pytudes)项目的rust版本
 
