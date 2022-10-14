@@ -1,6 +1,6 @@
 # rustudes
 
-rust version of Peter Norvig's [pytudes](https://github.com/norvig/pytudes)
+rust version of [Peter Norvig](https://norvig.com/)'s [pytudes](https://github.com/norvig/pytudes)
 
 
 | Run                              | Year |Probability and Uncertainty|
