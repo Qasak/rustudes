@@ -23,23 +23,18 @@ pub fn P <T: Eq + Hash>(event: &Vec<T>, space: &Vec<T>) -> F {
 为什么P的定义使用len（event & space）而不是len（event）？因为我不想计算那些在事件中被指定但实际上不在样本空间中的结果
 
 ```rust
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn even() {
-        let D: HashSet<i32> =    vec![1, 2, 3, 4, 5, 6].into_iter().collect();
-        let even: HashSet<i32> = vec![   2,    4,    6].into_iter().collect();
-        println!("{:?}", P(even, D));
-    }
 
-    #[test]
-    fn even_2() {
-        let D: HashSet<i32> =    vec![1, 2, 3, 4, 5, 6].into_iter().collect();
-        let even: HashSet<i32> = vec![2, 4, 6, 8, 10, 12].into_iter().collect();
-        println!("{:?}", P(even, D));
-    }
+fn even() {
+    let D = vec![1, 2, 3, 4, 5, 6];
+    let even = vec![2,    4,    6];
+    println!("{:?}", P(&even, &D));
+}
 
+
+fn even_2() {
+    let D =    vec![1, 2, 3, 4, 5, 6];
+    let even = vec![2, 4, 6, 8, 10, 12];
+    println!("{:?}", P(&even, &D));
 }
 ```
 
@@ -68,7 +63,7 @@ pub fn cross(A: &str, B: &str) -> Vec<String> {
     list
 }
 
-#[test]
+
 fn get_urn() {
     let W = cross("W", "12345678");
     let B = cross("B", "123456");
@@ -95,7 +90,7 @@ pub fn combos (items: Vec<String>, n: usize) -> Vec<Vec<String>> {
 ```
 
 ```rust
-#[test]
+
 fn get_combos() {
     let urn = get_urn();
     let U6 = combos(urn, 6);
@@ -117,7 +112,7 @@ n choose c  = $\frac{n!}{(n - c)!·c!}$
 ### 瓮问题1：选择6个红球的概率是多少？
 
 ```rust
-    #[test]
+
     fn q_1() {
         let urn = get_urn();
         let U6 = combos(urn, 6);
