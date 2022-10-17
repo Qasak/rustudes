@@ -7,9 +7,9 @@ type F = fraction::Fraction;
 
 
 /// "The probability of an event, given a sample space of equiprobable outcomes."
-pub fn P <T: Eq + Hash>(event: Vec<T>, space: Vec<T>) -> F {
-    let event_set: HashSet<T> = event.into_iter().collect();
-    let space_set: HashSet<T> = space.into_iter().collect();
+pub fn P <T: Eq + Hash>(event: &Vec<T>, space: &Vec<T>) -> F {
+    let event_set: HashSet<&T> = event.iter().collect();
+    let space_set: HashSet<&T> = space.iter().collect();
     let l1 = event_set.intersection(&space_set).collect::<HashSet<_>>().len();
     let l2 = space_set.len();
     F::from(l1) / F::from(l2)
@@ -32,6 +32,20 @@ pub fn cross(A: &str, B: &str) -> Vec<String> {
     list
 }
 
+pub fn choose(n: u128, c: u128) -> u128 {
+    factorial(n) / (factorial(n - c) * factorial(c))
+}
+
+pub fn factorial(n: u128) -> u128 {
+    let mut n = n;
+    let mut ret = 1;
+    while n > 0 {
+        ret *= n;
+        n -= 1;
+    }
+    ret
+}
+
 /// "All combinations of n items; each combo as a concatenated str."
 pub fn combos (items: Vec<String>, n: usize) -> Vec<String> {
     let its = items
@@ -50,22 +64,24 @@ pub fn combos (items: Vec<String>, n: usize) -> Vec<String> {
 
 #[cfg(test)]
 mod tests {
+    use std::io::Read;
     use std::ops::Deref;
+    use fraction::Fraction;
     use rand::seq::IteratorRandom;
     use rand::thread_rng;
     use super::*;
     #[test]
     fn even() {
         let D = vec![1, 2, 3, 4, 5, 6];
-        let even = vec![   2,    4,    6];
-        println!("{:?}", P(even, D));
+        let even = vec![2,    4,    6];
+        println!("{:?}", P(&even, &D));
     }
 
     #[test]
     fn even_2() {
         let D =    vec![1, 2, 3, 4, 5, 6];
         let even = vec![2, 4, 6, 8, 10, 12];
-        println!("{:?}", P(even, D));
+        println!("{:?}", P(&even, &D));
     }
 
     fn get_urn() -> Vec<String>{
@@ -88,6 +104,11 @@ mod tests {
     }
 
     #[test]
+    fn c() {
+        println!("{}", choose(23, 6));
+    }
+
+    #[test]
     fn q_1() {
         let urn = get_urn();
         let U6 = combos(urn, 6);
@@ -98,7 +119,8 @@ mod tests {
             )
             .collect::<Vec<String>>();
         println!("{:?}", red6);
-        println!("{:?}", P(red6, U6));
+        println!("{:?}", P(&red6, &U6));
+        assert_eq!(P(&red6, &U6), F::from(choose(9, 6)) / F::from(U6.len()));
     }
 
 }

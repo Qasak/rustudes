@@ -41,6 +41,13 @@ mod tests {
 
 
 我们将从定义瓮的内容开始。
+一个瓮里有23个球。8个白色，6个蓝色，9个红色。我们随机选择六个球（每种可能的选择都是同样的可能性）。考虑如下事件的概率
+
++ 所有的球都是红色的
++ 3个是蓝色的，2个是白色的，1个是红色的
++ 恰好有4个球是白色的
+
+
 ```rust
 /// "The set of ways of concatenating one item from collection A with one from B."
 pub fn cross(A: &str, B: &str) -> Vec<String> {
@@ -120,5 +127,18 @@ n choose c  = $\frac{n!}{(n - c)!·c!}$
         println!("{:?}", P(red6, U6));
     }
 
+red6.len(): 84
 Rational(Plus, Ratio { numer: 4, denom: 4807 })
+
+
+```
+
+为什么会有84种方法？因为瓮里有9个红球，而我们问的是有多少种方法可以选择其中的6个。
+
+`choose(9, 6)`
+
+84
+
+```rust
+        assert_eq!(P(&red6, &U6), F::from(choose(9, 6)) / F::from(U6.len()));
 ```
