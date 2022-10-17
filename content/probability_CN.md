@@ -10,10 +10,14 @@
 
 
 ```rust
-type F = fraction::Fraction;
-
-pub fn P<T: Eq + Hash>(event: HashSet<T>, space: HashSet<T>) -> F {
-    F::from(event.intersection(&space).collect::<HashSet<_>>().len()) / F::from(space.len())
+///     """The probability of an event, given a sample space of equiprobable outcomes.
+//     event can be either a set of outcomes, or a predicate (true for outcomes in the event)."""
+pub fn P <T: Eq + Hash>(event: &Vec<T>, space: &Vec<T>) -> F {
+    let event_set: HashSet<&T> = event.into_iter().collect();
+    let space_set: HashSet<&T> = space.into_iter().collect();
+    let l1 = event_set.intersection(&space_set).collect::<HashSet<_>>().len();
+    let l2 = space_set.len();
+    F::from(l1) / F::from(l2)
 }
 ```
 为什么P的定义使用len（event & space）而不是len（event）？因为我不想计算那些在事件中被指定但实际上不在样本空间中的结果
