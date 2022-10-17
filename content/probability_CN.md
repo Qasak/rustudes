@@ -146,3 +146,6 @@ Rational(Plus, Ratio { numer: 4, denom: 4807 })
 ```rust
         assert_eq!(P(&red6, &U6), F::from(choose(9, 6)) / F::from(U6.len()));
 ```
+所有涉及代码：
+
+[probability.rs](https://github.com/Qasak/rustudes/blob/main/src/probability.rs)
