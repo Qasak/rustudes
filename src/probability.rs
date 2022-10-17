@@ -6,10 +6,11 @@ use rand::seq::index;
 type F = fraction::Fraction;
 
 
-/// "The probability of an event, given a sample space of equiprobable outcomes."
+///     """The probability of an event, given a sample space of equiprobable outcomes.
+//     event can be either a set of outcomes, or a predicate (true for outcomes in the event)."""
 pub fn P <T: Eq + Hash>(event: &Vec<T>, space: &Vec<T>) -> F {
-    let event_set: HashSet<&T> = event.iter().collect();
-    let space_set: HashSet<&T> = space.iter().collect();
+    let event_set: HashSet<&T> = event.into_iter().collect();
+    let space_set: HashSet<&T> = space.into_iter().collect();
     let l1 = event_set.intersection(&space_set).collect::<HashSet<_>>().len();
     let l2 = space_set.len();
     F::from(l1) / F::from(l2)
@@ -122,6 +123,5 @@ mod tests {
         println!("{:?}", P(&red6, &U6));
         assert_eq!(P(&red6, &U6), F::from(choose(9, 6)) / F::from(U6.len()));
     }
-
 }
 
