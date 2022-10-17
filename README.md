@@ -2,7 +2,10 @@
 English | [中文](https://github.com/Qasak/rustudes/blob/main/README_CN.md)
 
 
-rust version of [Peter Norvig](https://norvig.com/)'s [pytudes](https://github.com/norvig/pytudes)
+> rust *lite* version of [Peter Norvig](https://norvig.com/)'s [pytudes](https://github.com/norvig/pytudes)
+
+> rustudes will focus on the code implementation part.
+> For more detailed principles or proofs please refer to pytudes
 
 
 "An étude (a French word meaning study) is an instrumental musical composition, usually short, of considerable difficulty, and designed to provide practice material for perfecting a particular musical skill." — [Wikipedia](https://en.wikipedia.org/wiki/%C3%89tude)
@@ -22,3 +25,4 @@ To continue the musical analogy, some people think of programming like [Spotify]
 | Run                              | Year |Computer Science Algorithms and Concepts|
 |----------------------------------|------|---|
 | [p](https://play.rust-lang.org/) | 2022 |How to Count Things|
+ 
