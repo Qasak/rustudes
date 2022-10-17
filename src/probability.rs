@@ -123,5 +123,45 @@ mod tests {
         println!("{:?}", P(&red6, &U6));
         assert_eq!(P(&red6, &U6), F::from(choose(9, 6)) / F::from(U6.len()));
     }
+
+    #[test]
+    fn q_2() {
+        let urn = get_urn();
+        let U6 = combos(urn, 6);
+        let b3w2r1 = U6.clone()
+            .into_iter()
+            .filter(
+                |s| s.bytes()
+                    .filter(|&b| b == b'B').count() == 3
+            )
+            .filter(
+                |s| s.bytes()
+                    .filter(|&b| b == b'W').count() == 2
+            ).filter(
+                |s| s.bytes()
+                    .filter(|&b| b == b'R').count() == 1
+            )
+            .collect::<Vec<String>>();
+        println!("{:?}", b3w2r1);
+        println!("{:?}", P(&b3w2r1, &U6));
+        assert_eq!(P(&b3w2r1, &U6),
+                   F::from(choose(6, 3) * choose(8, 2) * choose(9, 1) ) / F::from(U6.len()));
+    }
+
+    #[test]
+    fn q_3() {
+        let urn = get_urn();
+        let U6 = combos(urn, 6);
+        let w4 = U6.clone()
+            .into_iter()
+            .filter(
+                |s| s.bytes()
+                    .filter(|&b| b == b'W').count() == 4
+            ).collect::<Vec<String>>();
+        println!("{:?}", w4);
+        println!("{:?}", P(&w4, &U6));
+        assert_eq!(P(&w4, &U6),
+                   F::from(choose(8, 4) * choose(15, 2)) / F::from(U6.len()));
+    }
 }
 

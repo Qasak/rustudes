@@ -141,6 +141,59 @@ Rational(Plus, Ratio { numer: 4, denom: 4807 })
 ```rust
         assert_eq!(P(&red6, &U6), F::from(choose(9, 6)) / F::from(U6.len()));
 ```
+
+
+### 瓮问题1：3个蓝色，2个白色，1个红色的概率是多少？
+
+```rust
+    fn q_2() {
+        let urn = get_urn();
+        let U6 = combos(urn, 6);
+        let b3w2r1 = U6.clone()
+            .into_iter()
+            .filter(
+                |s| s.bytes()
+                    .filter(|&b| b == b'B').count() == 3
+            )
+            .filter(
+                |s| s.bytes()
+                    .filter(|&b| b == b'W').count() == 2
+            ).filter(
+                |s| s.bytes()
+                    .filter(|&b| b == b'R').count() == 1
+            )
+            .collect::<Vec<String>>();
+        println!("{:?}", b3w2r1);
+        println!("{:?}", P(&b3w2r1, &U6));
+        assert_eq!(P(&b3w2r1, &U6),
+                   F::from(choose(6, 3) * choose(8, 2) * choose(9, 1) ) / F::from(U6.len()));
+    }
+
+
+Rational(Plus, Ratio { numer: 240, denom: 4807 })
+```
+
+
+### 瓮问题3：恰好有4个白球的概率是多少？
+```rust
+    fn q_3() {
+        let urn = get_urn();
+        let U6 = combos(urn, 6);
+        let w4 = U6.clone()
+            .into_iter()
+            .filter(
+                |s| s.bytes()
+                    .filter(|&b| b == b'W').count() == 4
+            ).collect::<Vec<String>>();
+        println!("{:?}", w4);
+        println!("{:?}", P(&w4, &U6));
+        assert_eq!(P(&w4, &U6),
+                   F::from(choose(8, 4) * choose(15, 2)) / F::from(U6.len()));
+    }
+
+Rational(Plus, Ratio { numer: 350, denom: 4807 })
+```
+
 所有涉及代码：
 
 [probability.rs](https://github.com/Qasak/rustudes/blob/main/src/probability.rs)
