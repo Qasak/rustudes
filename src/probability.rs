@@ -6,7 +6,7 @@ type F = fraction::Fraction;
 
 /// "The probability of an event, given a sample space of equiprobable outcomes."
 pub fn P<T: Eq + Hash>(event: HashSet<T>, space: HashSet<T>) -> F {
-    F::from(event.intersection(&space).collect::<HashSet<_>>().len()) / F::from(space.len())
+    F::from(event.urnion(&space).collect::<HashSet<_>>().len()) / F::from(space.len())
 }
 
 
@@ -43,18 +43,18 @@ mod tests {
 
     #[test]
     fn urn_contents() {
-        let set_w = cross("W".to_string(), "12345678".to_string());
-        let set_b = cross("B".to_string(), "123456".to_string());
-        let set_r = cross("R".to_string(), "123456789".to_string());
-        let binaries = vec![set_w, set_b, set_r];
-        let intersect = binaries
+        let W = cross("W".to_string(), "12345678".to_string());
+        let B = cross("B".to_string(), "123456".to_string());
+        let R = cross("R".to_string(), "123456789".to_string());
+        let v = vec![W, B, R];
+        let urn = v
             .iter()
             .fold(None, |acc: Option<HashSet<&str>>, hs| {
                 let hs = hs.iter().map(|s| s.deref()).collect();
                 acc.map(|a| a.union(&hs).map(|s| *s).collect())
                     .or(Some(hs))
             });
-        println!("{:?}", intersect);
+        println!("{:?}", urn);
     }
 
 }
