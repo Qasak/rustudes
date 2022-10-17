@@ -105,3 +105,20 @@ n choose c  = $\frac{n!}{(n - c)!·c!}$
 
 ### 瓮问题1：选择6个红球的概率是多少？
 
+```rust
+    #[test]
+    fn q_1() {
+        let urn = get_urn();
+        let U6 = combos(urn, 6);
+        let red6 = U6.clone()
+            .into_iter()
+            .filter(
+                |s| s.bytes().filter(|&b| b == b'R').count() == 6
+            )
+            .collect::<Vec<String>>();
+        println!("{:?}", red6);
+        println!("{:?}", P(red6, U6));
+    }
+
+Rational(Plus, Ratio { numer: 4, denom: 4807 })
+```

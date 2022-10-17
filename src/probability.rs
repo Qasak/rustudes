@@ -7,9 +7,14 @@ type F = fraction::Fraction;
 
 
 /// "The probability of an event, given a sample space of equiprobable outcomes."
-pub fn P <T: Eq + Hash>(event: HashSet<T>, space: HashSet<T>) -> F {
-    F::from(event.intersection(&space).collect::<HashSet<_>>().len()) / F::from(space.len())
+pub fn P <T: Eq + Hash>(event: Vec<T>, space: Vec<T>) -> F {
+    let event_set: HashSet<T> = event.into_iter().collect();
+    let space_set: HashSet<T> = space.into_iter().collect();
+    let l1 = event_set.intersection(&space_set).collect::<HashSet<_>>().len();
+    let l2 = space_set.len();
+    F::from(l1) / F::from(l2)
 }
+
 
 
 /// "The set of ways of concatenating one item from collection A with one from B."
@@ -28,9 +33,17 @@ pub fn cross(A: &str, B: &str) -> Vec<String> {
 }
 
 /// "All combinations of n items; each combo as a concatenated str."
-pub fn combos (items: Vec<String>, n: usize) -> Vec<Vec<String>> {
-    let it = items.into_iter().combinations(n).collect::<Vec<_>>();
-    it
+pub fn combos (items: Vec<String>, n: usize) -> Vec<String> {
+    let its = items
+        .into_iter()
+        .combinations(n)
+        .into_iter()
+        .collect::<Vec<_>>();
+    let mut ret = vec![];
+    for it in its {
+        ret.push(it.join(" "));
+    }
+    ret
 }
 
 
@@ -43,15 +56,15 @@ mod tests {
     use super::*;
     #[test]
     fn even() {
-        let D: HashSet<i32> =    vec![1, 2, 3, 4, 5, 6].into_iter().collect();
-        let even: HashSet<i32> = vec![   2,    4,    6].into_iter().collect();
+        let D = vec![1, 2, 3, 4, 5, 6];
+        let even = vec![   2,    4,    6];
         println!("{:?}", P(even, D));
     }
 
     #[test]
     fn even_2() {
-        let D: HashSet<i32> =    vec![1, 2, 3, 4, 5, 6].into_iter().collect();
-        let even: HashSet<i32> = vec![2, 4, 6, 8, 10, 12].into_iter().collect();
+        let D =    vec![1, 2, 3, 4, 5, 6];
+        let even = vec![2, 4, 6, 8, 10, 12];
         println!("{:?}", P(even, D));
     }
 
@@ -76,10 +89,16 @@ mod tests {
 
     #[test]
     fn q_1() {
-        // let urn = get_urn();
-        // let U6 = combos(urn, 6);
-        // let red6 = U6.iter().
-        //     map(|i| i.iter().map(|j| j.as_bytes().iter().filter(|b| &&b == 'R')))
+        let urn = get_urn();
+        let U6 = combos(urn, 6);
+        let red6 = U6.clone()
+            .into_iter()
+            .filter(
+                |s| s.bytes().filter(|&b| b == b'R').count() == 6
+            )
+            .collect::<Vec<String>>();
+        println!("{:?}", red6);
+        println!("{:?}", P(red6, U6));
     }
 
 }
